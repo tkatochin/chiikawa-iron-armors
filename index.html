@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>映画ストーリー原稿プロット | ちいかわ アイアンアーマーズ</title>
-  <meta name="description" content="ちいかわ アイアンアーマーズの映画ストーリー原稿プロット">
+  <title>ちいかわ アイアンアーマーズ</title>
+  <meta name="description" content="ちいかわ アイアンアーマーズの原稿ビューア">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     :root {
@@ -26,7 +26,7 @@
     }
 
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
     }
 
     body {
@@ -46,6 +46,64 @@
 
     a {
       color: inherit;
+    }
+
+    .reading-context {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 20;
+      width: 100%;
+      border-bottom: 1px solid rgba(127, 43, 36, 0.18);
+      background: rgba(255, 250, 240, 0.94);
+      box-shadow: 0 10px 28px rgba(55, 39, 24, 0.12);
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      opacity: 0;
+      transform: translateY(-100%);
+      transition: opacity 160ms ease, transform 160ms ease;
+      pointer-events: none;
+      backdrop-filter: blur(14px);
+    }
+
+    .reading-context.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .reading-context-inner {
+      width: min(1360px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 8px 0 7px;
+    }
+
+    .reading-context a {
+      display: block;
+      overflow: hidden;
+      color: var(--nav);
+      text-decoration: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .reading-context-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .reading-context-section {
+      display: none;
+      margin-top: 2px;
+      padding-top: 4px;
+      border-top: 1px solid rgba(217, 205, 188, 0.72);
+      color: var(--accent-deep);
+      font-size: 0.76rem;
+      line-height: 1.45;
+    }
+
+    .reading-context.has-section .reading-context-section {
+      display: block;
     }
 
     .site-shell {
@@ -100,6 +158,31 @@
       line-height: 1.7;
     }
 
+    .doc-switch {
+      display: grid;
+      gap: 8px;
+      margin-top: 16px;
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+    }
+
+    .doc-switch a {
+      display: block;
+      padding: 7px 9px;
+      border: 1px solid rgba(23, 60, 67, 0.14);
+      border-radius: 6px;
+      color: var(--nav);
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.42);
+    }
+
+    .doc-switch a[aria-current="page"] {
+      border-color: rgba(185, 65, 50, 0.34);
+      background: rgba(185, 65, 50, 0.1);
+      color: var(--accent-deep);
+      font-weight: 700;
+    }
+
     .toc-title {
       margin: 18px 0 10px;
       color: var(--accent-deep);
@@ -139,29 +222,29 @@
       font-size: 0.8rem;
     }
 
-    .reader {
-      min-width: 0;
-    }
-
-    .mobile-toc {
-      display: none;
-      margin-bottom: 18px;
+    .content-toc {
+      margin: 0 0 46px;
       border: 1px solid rgba(127, 43, 36, 0.16);
       border-radius: 8px;
-      background: rgba(255, 250, 240, 0.9);
-      box-shadow: var(--shadow);
+      background: rgba(255, 255, 255, 0.32);
     }
 
-    .mobile-toc summary {
+    .content-toc summary {
       cursor: pointer;
       padding: 14px 16px;
-      color: var(--nav);
+      color: var(--accent-deep);
       font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
       font-weight: 700;
     }
 
-    .mobile-toc .toc-list {
-      padding: 0 12px 14px;
+    .content-toc .toc-list {
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 3px 14px;
+      padding: 0 16px 16px;
+    }
+
+    .reader {
+      min-width: 0;
     }
 
     article {
@@ -185,7 +268,7 @@
       position: relative;
       color: var(--ink);
       line-height: 1.38;
-      scroll-margin-top: 24px;
+      scroll-margin-top: 88px;
     }
 
     article h1 {
@@ -279,6 +362,25 @@
       background: var(--line);
     }
 
+    .scene-break {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 44px auto 48px;
+      color: var(--muted);
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.18em;
+    }
+
+    .scene-break::before,
+    .scene-break::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line), transparent);
+    }
+
     .top-link {
       position: fixed;
       right: 18px;
@@ -299,6 +401,10 @@
     }
 
     @media (max-width: 900px) {
+      .reading-context-inner {
+        width: min(100% - 24px, 860px);
+      }
+
       .site-shell {
         display: block;
         width: min(100% - 24px, 860px);
@@ -307,10 +413,6 @@
 
       .sidebar {
         display: none;
-      }
-
-      .mobile-toc {
-        display: block;
       }
 
       article {
@@ -328,22 +430,28 @@
   </style>
 </head>
 <body>
+  <div class="reading-context" id="reading-context" aria-label="現在位置">
+    <div class="reading-context-inner">
+      <a class="reading-context-title" id="reading-context-title" href="#top"></a>
+      <a class="reading-context-section" id="reading-context-section" href="#top"></a>
+    </div>
+  </div>
   <div class="site-shell" id="top">
     <aside class="sidebar" aria-label="目次">
       <div class="brand">
         <p class="brand-kicker">CHIIKAWA IRON ARMORS</p>
-        <h1 class="brand-title">映画ストーリー原稿プロット</h1>
-        <p class="brand-note">Markdownと挿絵画像をそのまま読み込む公開用ビューア。</p>
+        <h1 class="brand-title" id="brand-title">原稿ビューア</h1>
+        <p class="brand-note" id="brand-note">Markdownと挿絵画像をそのまま読み込むビューア。</p>
+        <nav class="doc-switch" aria-label="表示する文書">
+          <a href="?doc=plot" data-doc-link="plot">原稿プロット</a>
+          <a href="?doc=novel" data-doc-link="novel">小説版本文</a>
+        </nav>
       </div>
       <p class="toc-title">目次</p>
       <nav id="toc" class="toc-list" aria-label="目次"></nav>
     </aside>
 
     <main class="reader">
-      <details class="mobile-toc">
-        <summary>目次</summary>
-        <nav id="mobile-toc" class="toc-list" aria-label="モバイル目次"></nav>
-      </details>
       <article id="content" aria-live="polite">
         <p class="loading">原稿を読み込み中です。</p>
       </article>
@@ -352,10 +460,33 @@
   <a class="top-link" href="#top" aria-label="ページ上部へ戻る">↑</a>
 
   <script>
-    const markdownPath = './映画ストーリー原稿プロット.md';
+    const documents = {
+      plot: {
+        path: './映画ストーリー原稿プロット.md',
+        label: '映画ストーリー原稿プロット',
+        note: '脚本化のための内部プロット。ネタバレを含みます。',
+        loading: '原稿プロットを読み込み中です。'
+      },
+      novel: {
+        path: './小説版_本文.md',
+        label: '小説版本文',
+        note: '章ファイルから生成した読書用の結合版です。',
+        loading: '小説版本文を読み込み中です。'
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const requestedDoc = params.get('doc') || 'novel';
+    const currentDocKey = documents[requestedDoc] ? requestedDoc : 'novel';
+    const currentDoc = documents[currentDocKey];
+    const markdownPath = currentDoc.path;
     const content = document.getElementById('content');
     const toc = document.getElementById('toc');
-    const mobileToc = document.getElementById('mobile-toc');
+    const brandTitle = document.getElementById('brand-title');
+    const brandNote = document.getElementById('brand-note');
+    const readingContext = document.getElementById('reading-context');
+    const readingContextTitle = document.getElementById('reading-context-title');
+    const readingContextSection = document.getElementById('reading-context-section');
 
     const slugCounts = new Map();
 
@@ -379,16 +510,36 @@
       headings.forEach((heading) => {
         const item = document.createElement('li');
         item.className = heading.tagName === 'H2' ? 'level-2' : 'level-3';
+        const headingText = heading.textContent;
+        heading.dataset.headingText = headingText;
 
         const link = document.createElement('a');
         link.href = `#${heading.id}`;
-        link.textContent = heading.textContent;
+        link.textContent = headingText;
         item.appendChild(link);
         list.appendChild(item);
       });
 
-      toc.replaceChildren(...list.cloneNode(true).childNodes);
-      mobileToc.replaceChildren(...list.childNodes);
+      const sidebarList = list.cloneNode(true);
+      const contentList = list.cloneNode(true);
+
+      toc.replaceChildren(...sidebarList.childNodes);
+
+      const contentToc = document.createElement('details');
+      contentToc.className = 'content-toc';
+      contentToc.open = true;
+
+      const summary = document.createElement('summary');
+      summary.textContent = '目次';
+
+      const contentTocNav = document.createElement('nav');
+      contentTocNav.setAttribute('aria-label', '本文目次');
+      contentTocNav.appendChild(contentList);
+
+      contentToc.appendChild(summary);
+      contentToc.appendChild(contentTocNav);
+
+      content.querySelector('h1')?.after(contentToc);
     }
 
     function configureMarked() {
@@ -409,7 +560,76 @@
       });
     }
 
+    function prepareMarkdown(markdown) {
+      return markdown.replace(/^＊$/gm, '<div class="scene-break" aria-hidden="true">＊</div>');
+    }
+
+    function updateDocumentChrome() {
+      brandTitle.textContent = currentDoc.label;
+      brandNote.textContent = currentDoc.note;
+      content.innerHTML = `<p class="loading">${currentDoc.loading}</p>`;
+
+      document.querySelectorAll('[data-doc-link]').forEach((link) => {
+        if (link.dataset.docLink === currentDocKey) {
+          link.setAttribute('aria-current', 'page');
+        } else {
+          link.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    function setupReadingContext() {
+      const title = content.querySelector('h1');
+      const sectionHeadings = [...content.querySelectorAll('h2, h3')];
+
+      if (!title) {
+        return;
+      }
+
+      readingContextTitle.textContent = title.textContent;
+      readingContextTitle.href = `#${title.id}`;
+
+      let ticking = false;
+
+      function updateReadingContext() {
+        ticking = false;
+
+        const titleHasScrolledAway = title.getBoundingClientRect().bottom <= 0;
+        readingContext.classList.toggle('is-visible', titleHasScrolledAway);
+
+        let activeHeading = null;
+        const activationOffset = 96;
+
+        sectionHeadings.forEach((heading) => {
+          if (heading.getBoundingClientRect().top <= activationOffset) {
+            activeHeading = heading;
+          }
+        });
+
+        if (titleHasScrolledAway && activeHeading) {
+          readingContextSection.textContent = activeHeading.dataset.headingText || activeHeading.textContent;
+          readingContextSection.href = `#${activeHeading.id}`;
+          readingContext.classList.add('has-section');
+        } else {
+          readingContextSection.removeAttribute('href');
+          readingContext.classList.remove('has-section');
+        }
+      }
+
+      function requestReadingContextUpdate() {
+        if (!ticking) {
+          ticking = true;
+          window.requestAnimationFrame(updateReadingContext);
+        }
+      }
+
+      window.addEventListener('scroll', requestReadingContextUpdate, { passive: true });
+      window.addEventListener('resize', requestReadingContextUpdate);
+      updateReadingContext();
+    }
+
     async function renderMarkdown() {
+      updateDocumentChrome();
       configureMarked();
 
       try {
@@ -419,9 +639,10 @@
         }
 
         const markdown = await response.text();
-        content.innerHTML = marked.parse(markdown);
+        content.innerHTML = marked.parse(prepareMarkdown(markdown));
         buildToc();
-        document.title = `${content.querySelector('h1')?.textContent || '映画ストーリー原稿プロット'} | ちいかわ アイアンアーマーズ`;
+        setupReadingContext();
+        document.title = `${content.querySelector('h1')?.textContent || currentDoc.label} | ちいかわ アイアンアーマーズ`;
       } catch (error) {
         content.innerHTML = `
           <h1>Markdownを読み込めませんでした</h1>
