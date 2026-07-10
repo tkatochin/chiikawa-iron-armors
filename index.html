@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>映画ストーリー原稿プロット | ちいかわ アイアンアーマーズ</title>
+  <meta name="description" content="ちいかわ アイアンアーマーズの映画ストーリー原稿プロット">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fffaf0;
+      --paper-deep: #f2eadc;
+      --ink: #211b16;
+      --muted: #6d6258;
+      --line: #d9cdbc;
+      --accent: #b94132;
+      --accent-deep: #7f2b24;
+      --nav: #173c43;
+      --gold: #c28b2c;
+      --shadow: 0 18px 50px rgba(55, 39, 24, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(23, 60, 67, 0.055) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(185, 65, 50, 0.045) 1px, transparent 1px),
+        radial-gradient(circle at 12% 0%, rgba(194, 139, 44, 0.16), transparent 34rem),
+        linear-gradient(135deg, #fffaf0 0%, #f4ede1 52%, #e9f0ed 100%);
+      background-size: 36px 36px, 36px 36px, auto, auto;
+      color: var(--ink);
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", serif;
+      line-height: 1.95;
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .site-shell {
+      display: grid;
+      grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+      gap: 32px;
+      width: min(1360px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 32px 0 72px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+      max-height: calc(100vh - 48px);
+      padding: 22px 18px;
+      overflow: auto;
+      background: rgba(255, 250, 240, 0.86);
+      border: 1px solid rgba(127, 43, 36, 0.16);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: grid;
+      gap: 6px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-kicker {
+      color: var(--accent-deep);
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .brand-title {
+      margin: 0;
+      color: var(--nav);
+      font-size: clamp(1.18rem, 2.2vw, 1.55rem);
+      line-height: 1.35;
+    }
+
+    .brand-note {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+
+    .toc-title {
+      margin: 18px 0 10px;
+      color: var(--accent-deep);
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .toc-list {
+      display: grid;
+      gap: 4px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 6px 8px;
+      border-radius: 6px;
+      color: var(--nav);
+      text-decoration: none;
+    }
+
+    .toc-list a:hover,
+    .toc-list a:focus-visible {
+      background: rgba(23, 60, 67, 0.09);
+      outline: none;
+    }
+
+    .toc-list .level-3 a {
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .reader {
+      min-width: 0;
+    }
+
+    .mobile-toc {
+      display: none;
+      margin-bottom: 18px;
+      border: 1px solid rgba(127, 43, 36, 0.16);
+      border-radius: 8px;
+      background: rgba(255, 250, 240, 0.9);
+      box-shadow: var(--shadow);
+    }
+
+    .mobile-toc summary {
+      cursor: pointer;
+      padding: 14px 16px;
+      color: var(--nav);
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-weight: 700;
+    }
+
+    .mobile-toc .toc-list {
+      padding: 0 12px 14px;
+    }
+
+    article {
+      padding: clamp(26px, 5vw, 68px);
+      background: rgba(255, 250, 240, 0.9);
+      border: 1px solid rgba(127, 43, 36, 0.15);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .loading,
+    .error {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+    }
+
+    article h1,
+    article h2,
+    article h3 {
+      position: relative;
+      color: var(--ink);
+      line-height: 1.38;
+      scroll-margin-top: 24px;
+    }
+
+    article h1 {
+      margin: 0 0 32px;
+      padding-bottom: 20px;
+      border-bottom: 3px double var(--line);
+      color: var(--nav);
+      font-size: clamp(2rem, 6vw, 4rem);
+      line-height: 1.16;
+    }
+
+    article h1::after {
+      content: "";
+      display: block;
+      width: min(220px, 55%);
+      height: 5px;
+      margin-top: 18px;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      border-radius: 999px;
+    }
+
+    article h2 {
+      margin: 68px 0 20px;
+      padding: 12px 0 12px 18px;
+      border-left: 6px solid var(--accent);
+      color: var(--nav);
+      font-size: clamp(1.45rem, 3.2vw, 2.25rem);
+    }
+
+    article h3 {
+      margin: 38px 0 12px;
+      color: var(--accent-deep);
+      font-size: clamp(1.12rem, 2.2vw, 1.48rem);
+    }
+
+    article p,
+    article li {
+      font-size: clamp(1rem, 1.8vw, 1.08rem);
+    }
+
+    article p {
+      margin: 0 0 1.15em;
+    }
+
+    article ul,
+    article ol {
+      padding-left: 1.5em;
+    }
+
+    article li + li {
+      margin-top: 0.35em;
+    }
+
+    article strong {
+      color: var(--accent-deep);
+    }
+
+    article code {
+      padding: 0.12em 0.36em;
+      border: 1px solid rgba(127, 43, 36, 0.14);
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--accent-deep);
+      font-family: "SFMono-Regular", "Menlo", monospace;
+      font-size: 0.92em;
+    }
+
+    article blockquote {
+      margin: 28px 0;
+      padding: 16px 20px;
+      border-left: 5px solid var(--gold);
+      background: rgba(255, 255, 255, 0.48);
+      color: var(--muted);
+    }
+
+    article img {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      margin: 34px auto 38px;
+      border: 1px solid rgba(33, 27, 22, 0.12);
+      border-radius: 8px;
+      box-shadow: 0 16px 42px rgba(55, 39, 24, 0.18);
+    }
+
+    article hr {
+      height: 1px;
+      margin: 48px 0;
+      border: 0;
+      background: var(--line);
+    }
+
+    .top-link {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(255, 250, 240, 0.6);
+      border-radius: 999px;
+      background: var(--nav);
+      color: #fffaf0;
+      box-shadow: 0 12px 26px rgba(23, 60, 67, 0.28);
+      text-decoration: none;
+      font-family: "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .site-shell {
+        display: block;
+        width: min(100% - 24px, 860px);
+        padding-top: 14px;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-toc {
+        display: block;
+      }
+
+      article {
+        padding: 24px clamp(16px, 5vw, 32px) 42px;
+      }
+
+      article h1 {
+        margin-bottom: 24px;
+      }
+
+      article h2 {
+        margin-top: 48px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell" id="top">
+    <aside class="sidebar" aria-label="目次">
+      <div class="brand">
+        <p class="brand-kicker">CHIIKAWA IRON ARMORS</p>
+        <h1 class="brand-title">映画ストーリー原稿プロット</h1>
+        <p class="brand-note">Markdownと挿絵画像をそのまま読み込む公開用ビューア。</p>
+      </div>
+      <p class="toc-title">目次</p>
+      <nav id="toc" class="toc-list" aria-label="目次"></nav>
+    </aside>
+
+    <main class="reader">
+      <details class="mobile-toc">
+        <summary>目次</summary>
+        <nav id="mobile-toc" class="toc-list" aria-label="モバイル目次"></nav>
+      </details>
+      <article id="content" aria-live="polite">
+        <p class="loading">原稿を読み込み中です。</p>
+      </article>
+    </main>
+  </div>
+  <a class="top-link" href="#top" aria-label="ページ上部へ戻る">↑</a>
+
+  <script>
+    const markdownPath = './映画ストーリー原稿プロット.md';
+    const content = document.getElementById('content');
+    const toc = document.getElementById('toc');
+    const mobileToc = document.getElementById('mobile-toc');
+
+    const slugCounts = new Map();
+
+    function slugify(text) {
+      const base = text
+        .trim()
+        .toLowerCase()
+        .replace(/[\s　]+/g, '-')
+        .replace(/["'`!?.,:;()\[\]{}<>]/g, '')
+        .replace(/-+/g, '-') || 'section';
+      const count = slugCounts.get(base) || 0;
+      slugCounts.set(base, count + 1);
+      return count ? `${base}-${count + 1}` : base;
+    }
+
+    function buildToc() {
+      const headings = [...content.querySelectorAll('h2, h3')];
+      const list = document.createElement('ul');
+      list.className = 'toc-list';
+
+      headings.forEach((heading) => {
+        const item = document.createElement('li');
+        item.className = heading.tagName === 'H2' ? 'level-2' : 'level-3';
+
+        const link = document.createElement('a');
+        link.href = `#${heading.id}`;
+        link.textContent = heading.textContent;
+        item.appendChild(link);
+        list.appendChild(item);
+      });
+
+      toc.replaceChildren(...list.cloneNode(true).childNodes);
+      mobileToc.replaceChildren(...list.childNodes);
+    }
+
+    function configureMarked() {
+      const renderer = new marked.Renderer();
+      renderer.heading = ({ tokens, depth }) => {
+        const text = marked.parser(tokens);
+        const plainText = tokens.map((token) => token.raw || token.text || '').join('');
+        const id = slugify(plainText);
+        return `<h${depth} id="${id}">${text}</h${depth}>`;
+      };
+
+      marked.setOptions({
+        renderer,
+        gfm: true,
+        breaks: false,
+        mangle: false,
+        headerIds: false
+      });
+    }
+
+    async function renderMarkdown() {
+      configureMarked();
+
+      try {
+        const response = await fetch(markdownPath, { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const markdown = await response.text();
+        content.innerHTML = marked.parse(markdown);
+        buildToc();
+        document.title = `${content.querySelector('h1')?.textContent || '映画ストーリー原稿プロット'} | ちいかわ アイアンアーマーズ`;
+      } catch (error) {
+        content.innerHTML = `
+          <h1>Markdownを読み込めませんでした</h1>
+          <p class="error">公開サーバー上ではこのまま動作します。ローカルで確認する場合は、このフォルダを簡易サーバーで開いてください。</p>
+          <p class="error">対象ファイル: <code>${markdownPath}</code></p>
+        `;
+        console.error(error);
+      }
+    }
+
+    renderMarkdown();
+  </script>
+</body>
+</html>
