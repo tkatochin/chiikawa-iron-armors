@@ -10,7 +10,8 @@ abort('No chapter files found in novel_chapters/') if chapters.empty?
 
 part_titles = {
   '01' => '## 第一部 父の残した部屋',
-  '04' => '## 第二部 ひとりでは続かない'
+  '04' => '## 第二部 ひとりでは続かない',
+  '06' => '## 第三部 奪還作戦'
 }
 
 body_sections = chapters.flat_map do |path|
