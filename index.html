@@ -570,7 +570,13 @@
     }
 
     function prepareMarkdown(markdown) {
-      return markdown.replace(/^＊$/gm, '<div class="scene-break" aria-hidden="true">＊</div>');
+      const cacheBust = Date.now();
+      return markdown
+        .replace(/^＊$/gm, '<div class="scene-break" aria-hidden="true">＊</div>')
+        .replace(
+          /(<img\b[^>]*\bsrc=")(illustrations\/[^"?]+)(")/g,
+          `$1$2?v=${cacheBust}$3`
+        );
     }
 
     function updateDocumentChrome() {
@@ -642,7 +648,7 @@
       configureMarked();
 
       try {
-        const response = await fetch(markdownPath, { cache: 'no-store' });
+        const response = await fetch(`${markdownPath}?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`);
         }
