@@ -24,7 +24,11 @@ end
 body = body_sections.join("\n\n")
 
 output = <<~MARKDOWN.rstrip
-  # ちいかわ アイアンアーマーズ 小説版
+  # 小さな鎧さんたちの冒険
+
+  <figure class="book-cover">
+  <img src="illustrations/00_british_picturebook_cover.png" alt="ちいかわ アイアンアーマーズ 小説版の表紙" loading="eager">
+  </figure>
 
   #{body}
 MARKDOWN

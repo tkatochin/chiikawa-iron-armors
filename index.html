@@ -347,6 +347,15 @@
       box-shadow: none;
     }
 
+    article figure.book-cover {
+      margin: 0 0 28px;
+    }
+
+    article figure.book-cover img {
+      width: min(100%, 820px);
+      margin: 0 auto;
+    }
+
     article hr {
       height: 1px;
       margin: 32px 0;
@@ -593,6 +602,15 @@
       });
     }
 
+    function moveBookCoverAboveTitle() {
+      const title = content.querySelector('h1');
+      const cover = content.querySelector('figure.book-cover');
+
+      if (title && cover) {
+        content.insertBefore(cover, title);
+      }
+    }
+
     function setupReadingContext() {
       const title = content.querySelector('h1');
       const sectionHeadings = [...content.querySelectorAll('h2, h3')];
@@ -655,6 +673,7 @@
 
         const markdown = await response.text();
         content.innerHTML = marked.parse(prepareMarkdown(markdown));
+        moveBookCoverAboveTitle();
         buildToc();
         setupReadingContext();
         document.title = `${content.querySelector('h1')?.textContent || currentDoc.label} | ちいかわ アイアンアーマーズ`;
