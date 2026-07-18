@@ -501,8 +501,8 @@
     };
 
     const params = new URLSearchParams(window.location.search);
-    const requestedDoc = params.get('doc') || 'novel';
-    const currentDocKey = documents[requestedDoc] ? requestedDoc : 'novel';
+    const requestedDoc = params.get('doc') || 'short-novel';
+    const currentDocKey = documents[requestedDoc] ? requestedDoc : 'short-novel';
     const currentDoc = documents[currentDocKey];
     const markdownPath = currentDoc.path;
     const content = document.getElementById('content');
