@@ -595,13 +595,10 @@
     }
 
     function prepareMarkdown(markdown) {
-      const cacheBust = Date.now();
-      return markdown
-        .replace(/^＊$/gm, '<div class="scene-break" aria-hidden="true">＊</div>')
-        .replace(
-          /(<img\b[^>]*\bsrc=")(illustrations\/[^"?]+)(")/g,
-          `$1$2?v=${cacheBust}$3`
-        );
+      return markdown.replace(
+        /^＊$/gm,
+        '<div class="scene-break" aria-hidden="true">＊</div>'
+      );
     }
 
     function updateDocumentChrome() {
