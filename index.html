@@ -473,7 +473,6 @@
           <a href="?doc=plot" data-doc-link="plot">原稿プロット</a>
           <a href="?doc=outline" data-doc-link="outline">章立て</a>
           <a href="?doc=novel" data-doc-link="novel">小説版本文</a>
-          <a href="?doc=short-novel" data-doc-link="short-novel">短編小説版</a>
         </nav>
       </div>
       <p class="toc-title">目次</p>
@@ -507,18 +506,12 @@
         label: '小説版本文',
         note: '章ファイルから生成した読書用の結合版です。',
         loading: '小説版本文を読み込み中です。'
-      },
-      'short-novel': {
-        path: './短編小説版_本文.md',
-        label: '短編小説版',
-        note: '重複する説明を整理した、テンポ重視の短編版です。',
-        loading: '短編小説版を読み込み中です。'
       }
     };
 
     const params = new URLSearchParams(window.location.search);
-    const requestedDoc = params.get('doc') || 'short-novel';
-    const currentDocKey = documents[requestedDoc] ? requestedDoc : 'short-novel';
+    const requestedDoc = params.get('doc') || 'novel';
+    const currentDocKey = documents[requestedDoc] ? requestedDoc : 'novel';
     const currentDoc = documents[currentDocKey];
     const markdownPath = currentDoc.path;
     const content = document.getElementById('content');
